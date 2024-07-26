@@ -1,0 +1,213 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-21 21:02+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: .\accounts\forms.py:8
+msgid "Username"
+msgstr ""
+
+#: .\accounts\forms.py:9 .\templates\app\support.html:23
+msgid "Email"
+msgstr ""
+
+#: .\accounts\forms.py:11 .\templates\accounts\login.html:23
+msgid "Password"
+msgstr ""
+
+#: .\accounts\forms.py:14
+msgid "Confirm Password"
+msgstr ""
+
+#: .\accounts\forms.py:24
+msgid "This username already exists"
+msgstr ""
+
+#: .\accounts\forms.py:27
+msgid "Please enter a valid username (at least 4 characters)"
+msgstr ""
+
+#: .\accounts\forms.py:31
+msgid "Please enter a valid username (14 characters at most)"
+msgstr ""
+
+#: .\accounts\forms.py:34
+msgid "Please enter a valid username"
+msgstr ""
+
+#: .\accounts\forms.py:65 .\app\forms.py:46
+msgid "Email is not allowed"
+msgstr ""
+
+#: .\learngpt\settings.py:112 .\templates\app\settings\language.html:20
+msgid "English"
+msgstr ""
+
+#: .\learngpt\settings.py:113 .\templates\app\settings\language.html:19
+msgid "Arabic"
+msgstr ""
+
+#: .\templates\accounts\login.html:20
+msgid "Username or Email"
+msgstr ""
+
+#: .\templates\accounts\login.html:25
+#: .\templates\app\settings\security\change_password.html:59
+msgid "Forget Password?"
+msgstr ""
+
+#: .\templates\accounts\login.html:29
+#: .\templates\accounts\reset_password_complete.html:13
+#: .\templates\accounts\signup.html:43
+msgid "Login"
+msgstr ""
+
+#: .\templates\accounts\login.html:31
+msgid "Not a member? "
+msgstr ""
+
+#: .\templates\accounts\login.html:31
+msgid "Signup now"
+msgstr ""
+
+#: .\templates\accounts\reset_password.html:14
+#: .\templates\accounts\reset_password_confirm.html:13
+msgid "Reset Password"
+msgstr ""
+
+#: .\templates\accounts\reset_password.html:26
+msgid "Send"
+msgstr ""
+
+#: .\templates\accounts\reset_password_complete.html:10
+msgid "Change password successfully"
+msgstr ""
+
+#: .\templates\accounts\reset_password_confirm.html:32
+#: .\templates\app\settings\security.html:55
+msgid "Save"
+msgstr ""
+
+#: .\templates\accounts\reset_password_sent.html:5
+msgid "Send Email"
+msgstr ""
+
+#: .\templates\accounts\reset_password_sent.html:11
+msgid "Please check your email"
+msgstr ""
+
+#: .\templates\accounts\signup.html:13
+msgid "Signup Form"
+msgstr ""
+
+#: .\templates\accounts\signup.html:41
+msgid "Signup"
+msgstr ""
+
+#: .\templates\accounts\signup.html:43
+msgid "Already have an account? "
+msgstr ""
+
+#: .\templates\app\base.html:26 .\templates\app\settings.html:11
+msgid "Settings"
+msgstr ""
+
+#: .\templates\app\base.html:31 .\templates\app\support.html:12
+msgid "Support"
+msgstr ""
+
+#: .\templates\app\base.html:34
+msgid "Terms and Conditions"
+msgstr ""
+
+#: .\templates\app\base.html:38
+msgid "Logout"
+msgstr ""
+
+#: .\templates\app\base.html:52
+msgid "VIP"
+msgstr ""
+
+#: .\templates\app\base.html:54
+msgid "FREE"
+msgstr ""
+
+#: .\templates\app\base.html:62
+msgid "Your subscription is VIP"
+msgstr ""
+
+#: .\templates\app\base.html:64
+msgid "Your subscription is FREE"
+msgstr ""
+
+#: .\templates\app\base.html:73
+msgid "Are you sure you want to log out?"
+msgstr ""
+
+#: .\templates\app\base.html:75
+msgid "Confirm"
+msgstr ""
+
+#: .\templates\app\base.html:76
+msgid "cancel"
+msgstr ""
+
+#: .\templates\app\settings.html:18
+#: .\templates\app\settings\notifications.html:13
+msgid "Notifications"
+msgstr ""
+
+#: .\templates\app\settings.html:24
+msgid "Enable Notifications"
+msgstr ""
+
+#: .\templates\app\settings.html:28 .\templates\app\settings\security.html:24
+msgid "Security"
+msgstr ""
+
+#: .\templates\app\settings.html:32
+msgid "Language"
+msgstr ""
+
+#: .\templates\app\settings\language.html:12
+msgid "Change Language"
+msgstr ""
+
+#: .\templates\app\settings\security.html:19
+msgid "Enter the code sent to your email"
+msgstr ""
+
+#: .\templates\app\settings\security.html:58
+#: .\templates\app\settings\security\change_password.html:33
+msgid "Change Password"
+msgstr ""
+
+#: .\templates\app\settings\security\change_password.html:29
+msgid " password changed successfully"
+msgstr ""
+
+#: .\templates\app\support.html:19
+msgid "Whatsapp"
+msgstr ""
+
+#: .\templates\app\support.html:27
+msgid "Phone"
+msgstr ""
+
+#: .\templates\app\support.html:31
+msgid "Twitter"
+msgstr ""

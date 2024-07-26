@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Other Tags -->
+  <title>Payment</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- Moyasar Styles -->
+  <link rel="stylesheet" href="https://cdn.moyasar.com/mpf/1.7.3/moyasar.css" />
+
+  <!-- Moyasar Scripts -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=fetch"></script>
+  <script src="https://cdn.moyasar.com/mpf/1.7.3/moyasar.js"></script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+
+</head>
+<body>
+  <input type="hidden" id='price' value="{{price}}">
+
+  <section style="display: flex; flex-direction: column; align-items: center; height: 100%; width: 100%;">
+    <div style="width: 360px; margin: 40px 0;">
+      <h2 style="text-align: center;">تفاصيل الطلب</h2>
+      <h2 style="text-align: center;">السعر {{price}}</h2>
+      <h3 style="text-align: center;">عدد الأبناء {{son}}</h3>
+      <h3 id="result" style="text-align: center;"></h3>
+      <input type="hidden" id="son" value="{{son}}">
+      
+    </div>
+
+    <div class="mysr-form" style="width: 360px; margin: 20px 0;"></div>
+  </section>
+
+  <script>
+    let price = parseInt(document.getElementById('price').value);
+    let son = parseInt(document.getElementById('son').value);
+    // حساب النتيجة النهائية
+    let result = price * son;
+    let sresult = document.getElementById('result').innerHTML = `الإجمالي ${result}`
+   // result = parseFloat(price) * parseFloat(son)
+    console.log(result)
+    Moyasar.init({
+      element: '.mysr-form',
+      amount: result*100,
+      currency: 'SAR',
+      description: 'إشتراك LearnGpt',
+      publishable_api_key: 'pk_live_zgXEbePSad4kBeeV9837itgBBFmTHUCwDrmu3tMy',
+      callback_url: 'https://moyasar.com/thanks',
+      methods: ['creditcard'],
+      fixed_width: false, // optional, only for demo purposes
+      on_initiating: function () {
+            return new Promise(function (_, reject) {
+                setTimeout(function () {
+                    reject('This is just a sample form, it won\'t work ;)');
+                }, 2000);
+            });
+        }
+    });
+  </script>
+</body>
+
+</html>

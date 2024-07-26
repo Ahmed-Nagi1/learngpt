@@ -1,0 +1,94 @@
+{% include 'app/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block extra_head %}
+<title>Security</title>
+<link rel="stylesheet" href="{% static 'app/css/settings/security.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="wrapper">
+  {% if request.GET.update == 'success' %}
+  <div class="alert alert-success">
+    تم تحديث الملف بنجاح!
+  </div>
+  {% elif request.GET.email_change == 'verification' %}
+  <div class="alert alert-info">
+    {% trans "Enter the code sent to your email" %}
+  </div>
+  {% endif %}
+
+  <div class="title-text">
+    <div class="title">{% trans "Security" %}</div>
+  </div>
+  <br><hr>
+  <div class="form-container">
+    <div class="form-inner">
+      <form method="post" class="update-profile" onsubmit="showLoadingOverlay()">{% csrf_token %}
+        <div class="field name">
+          {{form.username.label}}
+          {{form.username}}
+          {% if form.username.errors %}
+          <div class="error">{{ form.username.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="field"><br>
+          {{form.email.label}}
+          {{form.email}}<br><br>
+          {% if form.email.errors %}
+          <div class="error">{{ form.email.errors }}</div>
+          {% endif %}
+        </div><br>
+        {% if request.GET.email_change == 'verification' %}
+        <div class="field">
+          <label for="verification_code">رمز التحقق</label>
+          <input type="text" name="verification_code" required>
+          {% if verification_error %}
+          <div class="error">{{ verification_error }}</div>
+          {% endif %}
+        </div>
+        {% endif %}<br><br>
+        <div class="field btn">
+          <div class="btn-layer"></div>
+          <input type="submit" id="submitBtn" value="{% trans "Save" %}" disabled>
+        </div>
+      </form><br>
+      <a class='link' href={% url "change_password" %}>{% trans "Change Password" %}</a>
+    </div>
+  </div>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const submitBtn = document.getElementById('submitBtn');
+    const inputs = document.querySelectorAll('.update-profile input[type="text"], .update-profile input[type="email"]');
+
+    function checkInputs() {
+      let formModified = false;
+      inputs.forEach(input => {
+        if (input.value !== input.defaultValue) {
+          formModified = true;
+        }
+      });
+      submitBtn.disabled = !formModified;
+      submitBtn.style.backgroundColor = formModified ? "blue" : "grey";
+    }
+
+    submitBtn.style.backgroundColor = submitBtn.disabled ? "grey" : "blue";
+
+    inputs.forEach(input => {
+      input.addEventListener('input', checkInputs);
+    });
+  });
+
+  function showLoadingOverlay() {
+    document.getElementById('loadingOverlay').classList.add('active');
+  }
+</script>
+
+{% endblock %}

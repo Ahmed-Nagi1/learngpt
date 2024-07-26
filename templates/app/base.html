@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load cache %}
+{% load static %}
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'app/css/base.css' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+{% endblock %}
+
+{% block content %}
+  {% cache 500 sidebar %}
+  <!-- partial:index.partial.html -->
+  <button id="nav-toggle-btn"><i class="fa-solid fa-bars"></i></button>
+  <div style="left: -100%;" id="nav-bar">
+    <input id="nav-toggle" type="checkbox" />
+    <div id="nav-header">
+      <a id="nav-title" target="_blank">Bus<i class="fa-solid fa-bus"></i>ln</a>
+      <label for="nav-toggle"><span id="nav-toggle-burger"></span></label>
+      <hr />
+    </div>
+    <div id="nav-content">
+
+      <hr />
+      <div class="nav-button">
+        <a href="{% url 'chat' %}"><i class="fas fa-message"></i><span>{% trans "chat" %}</span></a>
+      </div>
+      <hr />
+      <div class="nav-button">
+        <a href="{% url 'settings' %}"><i class="fas fa-cog"></i><span>{% trans "Settings" %}</span></a>
+      </div>
+      <hr />
+
+      <div class="nav-button">
+        <a href="{% url "support" %}"><i class="fas fa-headset"></i><span>{% trans "Support" %}</span></a>
+      </div>
+      <div class="nav-button">
+        <a href="{% url "TaC" %}"><i class="fas fa-file-contract"></i>{% trans "Terms and Conditions" %}</span></a>
+      </div>
+      <hr />
+      <div class="nav-button">
+        <a href="#" id="logoutBtn"><i class="fas fa-sign-out"></i><span>{% trans "Logout" %}</span></a>
+      </div>
+      <div id="nav-content-highlight"></div>
+    </div>
+    <input id="nav-footer-toggle" type="checkbox" />
+    <div id="nav-footer">
+      <div id="nav-footer-heading">
+        <div id="nav-footer-avatar">
+       
+        </div>
+    {% endcache %}
+        <div id="nav-footer-titlebox">
+          {{ request.user.username }}<span id="nav-footer-subtitle">
+            {% if request.user.parent.is_pro %}
+            {% trans "VIP" %}
+        {% else %}
+            {% trans "FREE" %}
+        {% endif %}
+      </span>
+        </div>
+        <label for="nav-footer-toggle"><i class="fas fa-caret-up"></i></label>
+      </div>
+      <div id="nav-footer-content">
+        {% if request.user.parent.is_pro %}
+            {% trans "Your subscription is VIP" %}
+        {% else %}
+            {% trans "Your subscription is FREE" %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+ 
+  <!-- نافذة التأكيد -->
+  <div id="confirmModal" class="modal">
+    <div class="modal-content">
+      <p>{% trans "Are you sure you want to log out?" %}</p>
+      <div class="modal-buttons">
+        <button id="confirmLogout" class="modal-button confirm" onclick="showLoadingOverlay()">{% trans "Confirm" %}</button>
+        <button id="cancelLogout" class="modal-button cancel">{% trans "cancel" %}</button>
+      </div>
+    </div>
+  </div>
+
+<!-- شاشة التحميل -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+</div>
+
+<script>
+  function showLoadingOverlay() {
+    document.getElementById('loadingOverlay').classList.add('active');
+  }
+</script>
+
+  <script>
+    let navBar = document.getElementById("nav-bar");
+    let navToggle = document.getElementById("nav-toggle");
+    let navToggleBtn = document.getElementById("nav-toggle-btn");
+
+    function toggleNav(){
+      if (navToggle.checked) {
+        navToggle.checked = false
+          navBar.style.left = "-100%";
+          navToggleBtn.style.opacity = "1"
+      } else {
+        navToggleBtn.style.opacity = "0"
+          navBar.style.left = "0";
+      }
+    }
+    navToggle.addEventListener("change", toggleNav);
+    navToggleBtn.addEventListener("click", toggleNav);
+
+    const logoutBtn = document.getElementById('logoutBtn');
+    const confirmModal = document.getElementById('confirmModal');
+    const confirmLogout = document.getElementById('confirmLogout');
+    const cancelLogout = document.getElementById('cancelLogout');
+
+    logoutBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      confirmModal.style.display = 'flex';
+    });
+
+    cancelLogout.addEventListener('click', () => {
+      confirmModal.style.display = 'none';
+    });
+
+    confirmLogout.addEventListener('click', () => {
+      window.location.href = "{% url 'logout' %}";
+    });
+  </script>
+
+
+{% endblock %}

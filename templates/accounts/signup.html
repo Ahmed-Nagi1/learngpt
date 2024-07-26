@@ -1,0 +1,64 @@
+c
+{% load static %}
+{% load i18n %}
+{% block extra_head %}
+<title>Signup</title>
+<link rel="stylesheet" href="{% static 'accounts/css/signup.css' %}">
+
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+  <div class="title-text">
+    <div class="title signup">{% trans "Signup Form" %}</div>
+  </div>
+  <div class="form-container">
+    <div class="form-inner">
+      <form method="post" class="signup" onsubmit="showLoadingOverlay()">{% csrf_token %}
+        <div class="field">
+          {{ form.username }}
+          {% if form.username.errors %}
+          <div class="error">{{ form.username.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="field">
+          {{ form.email }}
+          {% if form.email.errors %}
+          <div class="error">{{ form.email.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="field">
+          {{ form.password1 }}
+        </div>
+        <div class="field">
+          {{ form.password2 }}
+          {% if form.password2.errors %}
+          <div class="error">{{ form.password2.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="field btn">
+          <div class="btn-layer"></div>
+          <input type="submit" value="{% trans "Signup" %}">
+        </div>
+        <div class="signup-link">{% trans "Already have an account? " %}<a href="{% url 'login' %}">{% trans "Login" %}</a></div>
+        <script src="https://www.google.com/recaptcha/api.js"></script>
+        <div class="g-recaptcha" data-sitekey="6LfoMRUqAAAAAO3iZaJCTEm9Y-pJ3zxFQ2Q9R0BP"></div>
+        {% for error in form.non_field_errors %}
+        <div class="error">{{ error }}</div>
+        {% endfor %}
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- شاشة التحميل -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+</div>
+
+<script>
+  function showLoadingOverlay() {
+    document.getElementById('loadingOverlay').classList.add('active');
+  }
+</script>
+{% endblock %}

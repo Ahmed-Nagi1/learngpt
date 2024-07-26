@@ -1,0 +1,238 @@
+{% include 'app/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block extra_head %}
+    <title>Chat with AI</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="{% static 'app/css/chat.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.26.0/themes/prism.min.css">
+{% endblock %}
+{% block content %}
+    <div id="chat-container">
+        <div id="chat-header">
+            Chat with AI
+            <button id="new-chat-btn">{% trans "New Chat" %}</button>
+        </div>
+        <div id="chat-box">
+            <!-- الرسائل ستظهر هنا -->
+        </div>
+        <form id="chat-form" method="post" enctype="multipart/form-data">
+            <div id="file-name" style="position: fixed;transform: translate(65px, 48px);"></div>
+            <input type="text" id="message" name="message" required>
+            <input type="file" id="file-input" name="file" accept="image/*">
+            <button type="submit" id="send-btn"><i class="fas fa-paper-plane"></i></button>
+            <label for="file-input" id="upload-btn"><i class="fas fa-upload"></i></label>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.26.0/prism.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.26.0/themes/prism.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.26.0/components/prism-python.min.js"></script>
+
+    <script>
+    function typeText(element, text, callback) {
+        let index = 0;
+        function type() {
+            if (index < text.length) {
+                element.append(text.charAt(index));
+                index++;
+                setTimeout(type, 50);
+            } else if (callback) {
+                callback();
+            }
+        }
+        type();
+    }
+
+    function formatCodeBlocks(text) {
+        const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```([\s\S]*?)(?=```|$)/g;
+        return text.replace(codeBlockRegex, function(match, lang, code, afterText) {
+            lang = lang || 'plaintext'; // إذا لم يتم تحديد لغة، يتم تعيينها إلى 'plaintext'
+            const highlightedCode = Prism.highlight(code, Prism.languages[lang], lang);
+            return '<div class="code-block"><div class="code-header">' + lang + '</div><pre style="direction: ltr;"><code class="language-' + lang + '">' + highlightedCode + '</code></pre></div><div class="after_block">' + afterText.trim() + '</div>';
+        });
+    }
+
+    function addCopyButtons() {
+        $('pre code').each(function() {
+            var codeElement = $(this);
+            if (!codeElement.prev('.copy-button').length) {
+                var copyButton = $('<button class="copy-button">نسخ</button>');
+                copyButton.insertBefore(codeElement);
+                copyButton.on('click', function() {
+                    var tempTextarea = $('<textarea>');
+                    tempTextarea.text(codeElement.text());
+                    $('body').append(tempTextarea);
+                    tempTextarea.select();
+                    document.execCommand('copy');
+                    tempTextarea.remove();
+                    copyButton.text('تم النسخ');
+                    setTimeout(function() {
+                        copyButton.text('نسخ');
+                    }, 2000);
+                });
+            }
+        });
+    }
+
+    function detectLanguageAndApplyStyles(element) {
+        const text = element.text();
+        const isArabic = /[\u0600-\u06FF]/.test(text);
+        if (isArabic) {
+            element.css('text-align', 'right');
+        } else {
+            element.css('text-align', 'left');
+        }
+    }
+
+    $(document).ready(function() {
+        $('#file-input').on('change', function() {
+            var file = this.files[0];
+            if (file) {
+                $('#file-name').text(file.name);
+                if (!file.type.startsWith('image/')) {
+                    alert('الرجاء رفع صورة فقط');
+                    $('#file-input').val('');
+                    $('#file-name').text('');
+                }
+            }
+        });
+
+        $('#new-chat-btn').on('click', function() {
+            $('#new-chat-btn').attr('disabled', true); // تعطيل الزر
+            $('#file-input').val(''); // مسح حقل رفع الملفات
+            $('#file-name').text(''); // مسح اسم الملف
+            $.ajax({
+                url: "{% url 'chat' %}",
+                type: "POST",
+                data: {
+                    new_chat: 'true',
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.status === 'new chat started') {
+                        $('#chat-box').html('');
+                    }
+                    $('#new-chat-btn').attr('disabled', false); // إعادة تفعيل الزر عند النجاح
+                },
+                error: function() {
+                    $('#new-chat-btn').attr('disabled', false); // إعادة تفعيل الزر في حالة الخطأ
+                    showError('حدث خطأ أثناء بدء محادثة جديدة. حاول مرة أخرى.');
+                }
+            });
+        });
+
+        $('#chat-form').on('submit', function(event) {
+            event.preventDefault();
+            var message = $('#message').val();
+            var fileInput = $('#file-input')[0];
+            var formData = new FormData();
+            formData.append('message', message);
+            if (fileInput.files.length > 0) {
+                formData.append('file', fileInput.files[0]);
+            }
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+            $('#message').val(''); // مسح حقل الإدخال فوراً بعد إرسال الرسالة
+            $('#file-input').val(''); // مسح حقل رفع الملفات فوراً بعد إرسال الرسالة
+            $('#file-name').text(''); // مسح اسم الملف بعد الإرسال
+            $('#send-btn').attr('disabled', true); // تعطيل زر الإرسال
+            $('#new-chat-btn').attr('disabled', true); // تعطيل زر المحادثة الجديدة
+            let userMessage = $('<p class="user-message"><span class="message-content"><strong>أنت:</strong> ' + message + '</span></p>');
+            $('#chat-box').append(userMessage);
+            if (fileInput.files.length > 0) {
+                var file = fileInput.files[0];
+                if (file.type.startsWith('image/')) {
+                    var fileNameMessage = $('<p class="user-message"><span class="message-content"><strong>أنت:</strong> ' + file.name + '</span></p>');
+                    $('#chat-box').append(fileNameMessage);
+                } else {
+                    alert('الرجاء رفع صورة فقط');
+                    return;
+                }
+            }
+            $('#chat-box').append('<p class="ai-message" id="temp-typing"><span class="message-content"><i id="ai">AI:</i> {% trans "typing..." %}</span></p>');
+            $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
+
+            $.ajax({
+                url: "{% url 'chat' %}",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    $('#temp-typing').remove();
+                    let aiMessageContent = formatCodeBlocks(response.response);
+                    let aiMessage = $('<p class="ai-message"><span class="message-content"><i id="ai">AI:</i> ' + aiMessageContent + '</span></p>').appendTo('#chat-box');
+                    Prism.highlightAllUnder(aiMessage[0]);
+                    addCopyButtons(); // إضافة أزرار النسخ بعد تنسيق الكود
+                    detectLanguageAndApplyStyles(aiMessage.find('.message-content')); // تطبيق الأنماط بناءً على اللغة
+                    $('#send-btn').attr('disabled', false); // تمكين زر الإرسال
+                    $('#new-chat-btn').attr('disabled', false); // تمكين زر المحادثة الجديدة
+                    $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
+                },
+                error: function() {
+                    $('#temp-typing').remove();
+                    $('#send-btn').attr('disabled', false); // تمكين زر الإرسال في حالة الخطأ
+                    $('#new-chat-btn').attr('disabled', false); // تمكين زر المحادثة الجديدة في حالة الخطأ
+                    showError('حدث خطأ أثناء إرسال الرسالة. حاول مرة أخرى.');
+                }
+            });
+        });
+
+        function showError(message) {
+            let errorMessage = $('<p class="error-message">' + message + '</p>');
+            $('#chat-box').append(errorMessage);
+            $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
+            setTimeout(function() {
+                errorMessage.fadeOut(500, function() {
+                    $(this).remove();
+                });
+            }, 5000);
+        }
+
+        addCopyButtons(); // إضافة أزرار النسخ عند تحميل الصفحة
+
+        // Load chat history
+        const chatHistory = {{ chat_history|safe }};
+        chatHistory.forEach(entry => {
+            if (entry.role === 'user') {
+                entry.content.forEach(contentPart => {
+                    if (contentPart.type === 'text') {
+                        const userMessage = $('<p class="user-message"><span class="message-content"><strong>أنت:</strong> ' + contentPart.text + '</span></p>');
+                        $('#chat-box').append(userMessage);
+                    } else if (contentPart.type === 'image_url') {
+                        const imageMessage = $('<p class="user-message"><span class="message-content"><strong>أنت:</strong> <img src="' + contentPart.image_url.url + '" alt="User Image" width="150"></span></p>');
+                        $('#chat-box').append(imageMessage);
+                    }
+                });
+            } else if (entry.role === 'assistant') {
+                const aiMessageContent = formatCodeBlocks(entry.content);
+                const aiMessage = $('<p class="ai-message"><span class="message-content"><i id="ai">AI:</i> ' + aiMessageContent + '</span></p>');
+                $('#chat-box').append(aiMessage);
+                Prism.highlightAllUnder(aiMessage[0]);
+                addCopyButtons(); // إضافة أزرار النسخ بعد تنسيق الكود
+                detectLanguageAndApplyStyles(aiMessage.find('.message-content')); // تطبيق الأنماط بناءً على اللغة
+            }
+        });
+        $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
+    });
+    </script>
+
+    <style>
+        code[class*=language-], pre[class*=language-] {
+            font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+            background-color: #ffffff;
+            white-space: pre-wrap; /* تغيير break-spaces إلى pre-wrap */
+            max-width: 100%; /* تعديل max-width إلى 100% */
+            border-radius: 25px;
+            font-size: 14px; /* تصغير الخط */
+            overflow-x: auto; /* إضافة تمرير أفقي */
+            direction: ltr; /* تأكيد اتجاه النصوص البرمجية من اليسار لليمين */
+        }
+    
+        .message-content {
+            text-align: left; /* الوضع الافتراضي للنص */
+        }
+    </style>
+{% endblock %}

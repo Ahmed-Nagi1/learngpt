@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block extra_head %}
+
+    <title>confirm email</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+{% endblock %}
+{% block content %}
+<style>
+  
+/* شاشة التحميل */
+.loading-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(224, 224, 224, 0.719);
+  z-index: 10000;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+.loading-overlay.active {
+  display: flex;
+}
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #000;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>
+<div class="relative flex size-full min-h-screen flex-col bg-[#f8fafb] group/design-root overflow-x-hidden" style='font-family: Manrope, "Noto Sans", sans-serif;'>
+  <div class="flex items-center bg-[#f8fafb] p-4 pb-2 justify-between"></div>
+  <br><br><br><br>
+  <h1 class="text-[#0e151b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 text-left pb-3 pt-5 sent">Enter the code sent to your email</h1>
+  <div class="flex justify-center px-4 py-3"><br><br>
+    <form id="otp-form" method="post" class="relative">
+      {% csrf_token %}
+      {% if error_message %}
+        <div class="error absolute top-0 left-1/2 transform -translate-x-1/2 text-red-600">{{ error_message }}</div>
+      {% endif %}
+      <fieldset class="relative flex gap-4 mt-12">
+        <input
+          class="flex h-14 w-12 text-center [appearance:textfield] focus:outline-0 focus:ring-0 [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none rounded-xl border-2 border-transparent bg-[#e8eef3] focus:border-2 focus:border-[#d0dde6] text-base font-normal leading-normal"
+          type="number"
+          maxlength="1"
+          max="1"
+          min="0"
+          name="otp_digit_1"
+          oninput="handleInput(event)"
+        />
+        <input
+          class="flex h-14 w-12 text-center [appearance:textfield] focus:outline-0 focus:ring-0 [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none rounded-xl border-2 border-transparent bg-[#e8eef3] focus:border-2 focus:border-[#d0dde6] text-base font-normal leading-normal"
+          type="number"
+          maxlength="1"
+          max="1"
+          min="0"
+          name="otp_digit_2"
+          oninput="handleInput(event)"
+        />
+        <input
+          class="flex h-14 w-12 text-center [appearance:textfield] focus:outline-0 focus:ring-0 [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none rounded-xl border-2 border-transparent bg-[#e8eef3] focus:border-2 focus:border-[#d0dde6] text-base font-normal leading-normal"
+          type="number"
+          maxlength="1"
+          max="1"
+          min="0"
+          name="otp_digit_3"
+          oninput="handleInput(event)"
+        />
+        <input
+          class="flex h-14 w-12 text-center [appearance:textfield] focus:outline-0 focus:ring-0 [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none rounded-xl border-2 border-transparent bg-[#e8eef3] focus:border-2 focus:border-[#d0dde6] text-base font-normal leading-normal"
+          type="number"
+          maxlength="1"
+          max="1"
+          min="0"
+          name="otp_digit_4"
+          oninput="handleInput(event)"
+        />
+        <input
+          class="flex h-14 w-12 text-center [appearance:textfield] focus:outline-0 focus:ring-0 [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none rounded-xl border-2 border-transparent bg-[#e8eef3] focus:border-2 focus:border-[#d0dde6] text-base font-normal leading-normal"
+          type="number"
+          maxlength="1"
+          max="1"
+          min="0"
+          name="otp_digit_5"
+          oninput="handleInput(event)"
+        />
+        <input
+          class="flex h-14 w-12 text-center [appearance:textfield] focus:outline-0 focus:ring-0 [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none rounded-xl border-2 border-transparent bg-[#e8eef3] focus:border-2 focus:border-[#d0dde6] text-base font-normal leading-normal"
+          type="number"
+          maxlength="1"
+          max="1"
+          min="0"
+          name="otp_digit_6"
+          oninput="handleInput(event)"
+        />
+      </fieldset><br>
+      <div class="mt-4 flex justify-center">
+        <button name="resend" id="resend-btn" type="button" class="bg-gray-400 text-white py-2 px-4 rounded" onclick="showLoadingOverlay()" disabled>Resend OTP (<span id="timer">60</span>s)</button>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- شاشة التحميل -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+</div>
+<script>
+  function handleInput(event) {
+    const input = event.target;
+    const value = input.value;
+
+    if (value.length > 1) {
+      const nextInputs = Array.from(input.parentNode.children);
+      for (let i = 0; i < value.length; i++) {
+        if (nextInputs[i]) {
+          nextInputs[i].value = value[i];
+          if (nextInputs[i + 1]) {
+            nextInputs[i + 1].focus();
+          }
+        }
+      }
+    } else if (value.match(/^\d$/)) {
+      const nextInput = input.nextElementSibling;
+      if (nextInput) {
+        nextInput.focus();
+      }
+    }
+
+    const form = input.form;
+    const allFilled = Array.from(form.querySelectorAll('input[type="number"]')).every(input => input.value.length === 1);
+    if (allFilled) {
+      form.submit();
+    }
+  }
+
+  function startTimer(duration, display, button) {
+    let timer = duration, seconds;
+    const interval = setInterval(function () {
+      seconds = parseInt(timer, 10);
+      display.textContent = seconds;
+
+      if (--timer < 0) {
+        clearInterval(interval);
+        button.disabled = false;
+        button.classList.remove('bg-gray-400');
+        button.classList.add('bg-blue-500');
+        button.textContent = 'Resend OTP';
+        button.addEventListener('click', resendOtp);
+      }
+    }, 1000);
+  }
+
+  function resendOtp() {
+    const form = document.getElementById('otp-form');
+    const csrfToken = form.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+    fetch(form.action, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRFToken': csrfToken
+      },
+      body: new URLSearchParams({
+        'resend': 'true'
+      })
+    })
+    .then(response => response.text())
+    .then(html => {
+      document.open();
+      document.write(html);
+      document.close();
+    });
+  }
+
+  window.onload = function () {
+    const duration = 59;
+    const display = document.querySelector('#timer');
+    const resendButton = document.querySelector('#resend-btn');
+    startTimer(duration, display, resendButton);
+  };
+
+  function showLoadingOverlay() {
+    document.getElementById('loadingOverlay').classList.add('active');
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% include 'app/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block extra_head %}
+<title>notifications</title>
+<link rel="stylesheet" href="{% static 'css/app/settings/notifications.css' %}">
+{% comment %} <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> {% endcomment %}
+{% endblock %}
+{% block content %}
+<div class="wrapper">
+    <div class="title-text">
+        <div class="title">{% trans "Notifications" %}</div>
+    </div><br><hr><br>
+    <div class="form-container">
+        <div class="form-inner">
+            <form method="get" class="update-profile">
+                <div class="switch-container">
+                    <label class="switch">
+                        <input type="checkbox" id="notificationSwitch">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const notificationSwitch = document.getElementById('notificationSwitch');
+
+        // استعادة حالة الزر من localStorage
+        const isNotificationsEnabled = localStorage.getItem('notificationsEnabled') === 'true';
+        notificationSwitch.checked = isNotificationsEnabled;
+
+        notificationSwitch.addEventListener('change', function() {
+            if (notificationSwitch.checked) {
+                if (Notification.permission === 'default') {
+                    Notification.requestPermission().then(function(permission) {
+                        if (permission === 'granted') {
+                            new Notification('تم تفعيل الإشعارات لهذا الموقع');
+                            localStorage.setItem('notificationsEnabled', 'true');
+                            // إرسال طلب للحصول على الإشعارات
+                            fetch('/enable-notifications', { method: 'POST' });
+                        } else if (permission === 'denied') {
+                            alert('تم رفض الإذن للإشعارات.');
+                            notificationSwitch.checked = false; // إعادة الزر إلى حالة مغلقة
+                            localStorage.setItem('notificationsEnabled', 'false');
+                        }
+                    });
+                } else if (Notification.permission === 'granted') {
+                    new Notification('تم تفعيل الإشعارات لهذا الموقع');
+                    localStorage.setItem('notificationsEnabled', 'true');
+                    // إرسال طلب للحصول على الإشعارات
+                    fetch('/enable-notifications', { method: 'POST' });
+                } else if (Notification.permission === 'denied') {
+                    alert('تم رفض الإذن للإشعارات.');
+                    notificationSwitch.checked = false; // إعادة الزر إلى حالة مغلقة
+                    localStorage.setItem('notificationsEnabled', 'false');
+                }
+            } else {
+                localStorage.setItem('notificationsEnabled', 'false');
+                // إرسال طلب لإيقاف الإشعارات
+                fetch('/disable-notifications', { method: 'POST' });
+            }
+        });
+    });
+</script>
+{% endblock %}

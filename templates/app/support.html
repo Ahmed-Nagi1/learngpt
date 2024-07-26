@@ -1,0 +1,44 @@
+{% include 'app/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block extra_head %}
+<title>Support</title>
+<link rel="stylesheet" href="{% static 'app/css/settings.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="wrapper">
+
+    <div class="title-text">
+        <div class="title">
+            {% if request.GET.count == '0' %}
+                <h3 style="font-size: 21px;">للإشتراك في الخدمة عبر <span style="color: red; font-weight: 600;">(بنكك)</span> الرجاء مراسلة الدعم الفني</h3>
+            {% else %}
+                {% trans "Support" %}
+            {% endif %}
+        </div>
+    </div><br><hr><br>
+    <div class="form-container">
+        <div class="form-inner">
+            <form method="get" class="update-profile">
+                <div class="field btn"> 
+                    <div class="btn-layer"></div>
+                    <a href="https://wa.me/+249120057570" class="btn-content whatsapp"><i class="fa-brands fa-whatsapp"></i>{% trans "Whatsapp" %}</a>
+                </div><br>
+                {% comment %} <div class="field btn">
+                    <div class="btn-layer"></div>
+                    <a href="#" class="btn-content envelope"><i class="fa-solid fa-envelope"></i>{% trans "Email" %}</a>
+                </div><br> {% endcomment %}
+                <div class="field btn">
+                    <div class="btn-layer"></div>
+                    <a href="#" class="btn-content phone"><i class="fa-solid fa-phone"></i>{% trans "Phone" %} <p style="font-weight: 300;">غير متاح حاليا!</p></a>
+                </div><br>
+                <div class="field btn">
+                    <div class="btn-layer"></div>
+                    <a href="https://t.me/learn_gpt" class="btn-content telegram"><i class="fa-brands fa-telegram"></i>{% trans "Telegram" %}</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block extra_head %}
+  <title>Login</title>
+  <link rel="stylesheet" href="{% static 'accounts/css/login.css' %}">
+
+{% endblock %}
+{% block content %}
+  <div class="wrapper">
+    <img class="img" src="{% static 'image/account/school-bus.png' %}" >
+    <div class="title-text">
+      <div class="title login"></div>
+    </div>
+    <div class="form-container">
+      <div class="form-inner">
+        <form method="post" class="login" onsubmit="showLoadingOverlay()">{% csrf_token %}
+          <input type="hidden" name="form_type" value="login">
+          <div class="field">
+            <input type="text" name="email_or_username" placeholder="{% trans "Username or Email" %}" required>
+          </div>
+          <div class="field">
+            <input type="password" name="password" placeholder="{% trans "Password" %}" autocomplete="off" required>
+          </div>
+          <div class="pass-link"><a href="{% url 'password_reset' %}">{% trans "Forget Password?" %}</a></div>
+          <small class="error">{{error}}</small>
+          <div class="field btn">
+            <div class="btn-layer"></div>
+            <input type="submit" value="{% trans "Login" %}">
+          </div>
+          <div class="signup-link">{% trans "Not a member? " %}<a href="{% url 'signup' %}">{% trans "Signup now" %}</a></div>
+          <!-- <br> -->
+          <script src="https://www.google.com/recaptcha/api.js"></script>
+          <div class="g-recaptcha" data-sitekey="6LfoMRUqAAAAAO3iZaJCTEm9Y-pJ3zxFQ2Q9R0BP"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- شاشة التحميل -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+
+  <script>
+    function showLoadingOverlay() {
+      document.getElementById('loadingOverlay').classList.add('active');
+    }
+  </script>
+{% endblock %}

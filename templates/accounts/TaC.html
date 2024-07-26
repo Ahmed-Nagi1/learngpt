@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block extra_head %}
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Public+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+
+    <title>TaC</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+{% endblock %}
+{% block content %}
+    <div class="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden" style='font-family: "Public Sans", "Noto Sans", sans-serif; direction: rtl; text-align: right;'>
+      <div class="flex items-center bg-white p-4 pb-2 justify-between">
+        <h2 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pl-12 pr-12">سياسة الخصوصية</h2>
+      </div>
+      <h2 class="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">1. لا ضمانات</h2>
+      <p class="text-[#111418] text-base font-normal leading-normal pb-3 pt-1 px-4">
+        هذا الموقع متوفر، كما هو، بشكله الحالي، شركة تطوير خدمات النقل (LearnGpt) لا تقدّم أي نوع من الضمانات التمثيلية له وللمواد الموجودة عليه. إنّ المحتوى المتضمّن في هذا الموقع لا يقدّم الإرشادات والنصائح      </p>
+      <h2 class="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">2. تحديد المسؤولية</h2>
+      <p class="text-[#111418] text-base font-normal leading-normal pb-3 pt-1 px-4">
+        إنّ شركة تطوير خدمات النقل (LearnGpt) ، وموظفيها غير مسؤولين عن أيّ مشكلة قد تحصل أثناء استخدامك للموقع.      </p>
+      <h2 class="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">3. التعويض</h2>
+      <p class="text-[#111418] text-base font-normal leading-normal pb-3 pt-1 px-4">
+        في حال قمت بتخطي أي من أحكام هذه الشروط، فأنت ملزم بالتعويض لشركة تطوير خدمات النقل (LearnGpt) عن الأضرار التي ألحقتها بها.      </p>
+      <h2 class="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">4. القابلية</h2>
+      <p class="text-[#111418] text-base font-normal leading-normal pb-3 pt-1 px-4">
+        إذا تبيّن أنّ أيّ بند من هذه البنود غير صالح بموجب أيّ قانون معمول به، سيتم حذفه من دون التأثير على الأحكام الباقية هنا.
+      <h2 class="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">5. تباين الشروط</h2>
+      <p class="text-[#111418] text-base font-normal leading-normal pb-3 pt-1 px-4">
+        يحق لشركة تطوير خدمات النقل (LearnGpt)  تعديل كل هذه الشروط في أيّ وقت تراه مناسبًا، وخلال استخدامك هذا الموقع عليك مراجعة شروطه بانتظام.
+      <h2 class="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">6. المهمة</h2>
+      <p class="text-[#111418] text-base font-normal leading-normal pb-3 pt-1 px-4">
+        يحق لشركة تطوير خدمات النقل (LearnGpt) بـ: تعيين، نقل، تلزيم حقوقها تحت هذه الأحكام، من دون أي إشعار.
+
+        ومع ذلك، لا يمكنك تعيين أو نقل أو التعاقد على أي من حقوقك أو التزاماتك بموجب هذه الشروط.
+        <h2 class="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">7. اتفاق كامل</h2>
+      <p class="text-[#111418] text-base font-normal leading-normal pb-3 pt-1 px-4">
+        تشكّل هذه الشروط الاتفاقية الكاملة بينك وبين شركة تطوير خدمات النقل (LearnGpt) فيما يتعلّق باستخدامك لهذا الموقع، كما وتحلّ مكان كلّ الاتفاقيات والتفاهمات السابقة.
+        <h2 class="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">8. القانون والمقاضاة</h2>
+      <p class="text-[#111418] text-base font-normal leading-normal pb-3 pt-1 px-4">
+        هذه البنود ستكون مرتبطة بقوانين ()، وتخضع لمحاكمها القضائية في حال حصول أيّ نزاع
+        <div class="flex items-center bg-white p-4 pb-2 justify-between">
+            <h2 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pl-12 pr-12">البنود و الظروف</h2>
+        </div>
+        <h2 class="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">قيود عامة يمكنك استعمال هذا الموقع لأغراضك الشخصية، أو للحصول على معلومات غير تجارية أو للتسلية فقط.</h2>
+        <p class="text-[#111418] text-base font-normal leading-normal pb-3 pt-1 px-4">
+
+            لا يجوز لك بأي شكل نسخ أو اعادة انتاج أو إعادة استخدام أو إعادة إرسال أو تكييف أو نشر أو تشكيل أو تحميل أو تعديل أو إذاعة أو توزيع أي من محتويات هذا الموقع لأي غرض كان، سواء لأغراض عامة أو لأغراض تجارية، إلا بموافقة خطية مسبقة من قبلنا.
+<br><br>
+
+            لا يجوز استخدام صور أطراف ثالثة أو أسماءها و/ أو ممتلكاتها دون موافقة صريحة منهم.
+            <br><br>
+            لا يجوز لك أن ترسل إلى هذا الموقع أية مواد غير مشروعة أو ضارة (بما في ذلك الفيروسات) أو أية مواد تتضمن أي تهديد أو قدح أو تشهير أو فحش أو فضح أو تحريض أو إباحية أو بذاءة أو تدنيس أو أية مواد يمكن أن تشكل انتهاكا أو تشجع على انتهاك أي نظام.  يحق لنا مراجعة أو تعديل أو حذف المواد التي ترسلها أو التي يرسلها أشخاص آخرون إلى هذا الموقع، ولكننا لسنا ملزمين بذلك.
+            <br><br>
+            يحق لنا مراجعة أو تعديل أو حذف المواد التي ترسلها أو التي يرسلها أشخاص آخرون إلى هذا الموقع، ولكننا لسنا ملزمين بذلك.  
+
+      <form id="myForm">
+        <div class="flex px-4 py-3">
+            <button
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 flex-1 bg-[#1980e6] text-white text-base font-bold leading-normal tracking-[0.015em]">
+            <span class="truncate">انا موافق</span>
+            </button>
+        </div>
+    </form>
+    <script>
+      document.getElementById('myForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting the traditional way
+        window.history.back(); // Go back to the previous page
+    });
+    
+    </script>
+  
+      <div class="h-5 bg-white"></div>
+    </div>
+{% endblock %}

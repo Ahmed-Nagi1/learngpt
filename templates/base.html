@@ -1,0 +1,30 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="theme-color" content="#317EFB" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/x-icon" href="{% static 'image/icon/32.ico' %}" />
+    <link rel="manifest" href="{% static 'manifest.json' %}" />
+    <link rel="stylesheet" href="{% static 'accounts/css/base.css' %}" />
+    {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> {% endcomment %}
+    <!-- أي روابط أخرى لملفات CSS أو أيقونات -->
+    {% block extra_head %}
+
+    {% endblock %}
+  </head>
+  <body>
+    <div id="progress-bar-container">
+      <div id="progress-bar"></div>
+    </div>
+
+  {% block content %}
+
+  {% endblock %}
+
+
+
+  </body>
+</html>

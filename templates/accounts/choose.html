@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block extra_head %}
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+
+    <title>Choose</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+{% endblock %}
+{% block content %}
+    <div
+      class="relative flex size-full min-h-screen flex-col bg-white justify-center items-center group/design-root overflow-x-hidden"
+      style="--radio-dot-svg: url('data:image/svg+xml,%3csvg viewBox=%270 0 16 16%27 fill=%27rgb(17,20,24)%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3ccircle cx=%278%27 cy=%278%27 r=%273%27/%3e%3c/svg%3e'); font-family: Manrope, &quot;Noto Sans&quot;, sans-serif;"
+    >
+      <div class="w-full max-w-md mx-auto">
+        <div class="flex flex-col gap-3 p-4">
+          <form method="post"> {% csrf_token %}
+            <div class="mb-4 text-center">
+              <label class="block text-[#111418] text-sm font-medium leading-normal mb-2" for="name">الاسم</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="w-full p-2 border border-[#dce0e5] rounded"
+                placeholder="أدخل اسمك"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-[#111418] text-sm font-medium leading-normal mb-2" for="age">العمر</label>
+              <select
+                id="age"
+                name="age"
+                class="w-full p-2 border border-[#dce0e5] rounded"
+                required
+              >
+                {% for age in age_range %}
+                <option value="{{ age }}">{{ age }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="flex items-center bg-white p-4 pb-2 justify-between">
+              <h2 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pl-12 pr-12">اختر مرحلتك</h2>
+            </div>
+            <label class="flex items-center gap-4 rounded-xl border border-solid border-[#dce0e5] p-[15px] flex-row-reverse">
+              <input
+                type="radio"
+                class="h-5 w-5 border-2 border-[#dce0e5] bg-transparent text-transparent checked:border-[#111418] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#111418]"
+                name="student_type"
+                value="primary"
+                checked
+              />
+              <div class="flex grow flex-col"><p class="text-[#111418] text-sm font-medium leading-normal">طالب أساس</p></div>
+            </label><br>
+            <label class="flex items-center gap-4 rounded-xl border border-solid border-[#dce0e5] p-[15px] flex-row-reverse">
+              <input
+                type="radio"
+                class="h-5 w-5 border-2 border-[#dce0e5] bg-transparent text-transparent checked:border-[#111418] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#111418]"
+                name="student_type"
+                value="high"
+              />
+              <div class="flex grow flex-col"><p class="text-[#111418] text-sm font-medium leading-normal">طالب ثانوي</p></div>
+            </label><br>
+            <label class="flex items-center gap-4 rounded-xl border border-solid border-[#dce0e5] p-[15px] flex-row-reverse">
+              <input
+                type="radio"
+                class="h-5 w-5 border-2 border-[#dce0e5] bg-transparent text-transparent checked:border-[#111418] checked:bg-[image:--radio-dot-svg] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#111418]"
+                name="student_type"
+                value="university"
+              />
+              <div class="flex grow flex-col"><p class="text-[#111418] text-sm font-medium leading-normal">طالب جامعي</p></div>
+            </label>
+            <div class="flex px-4 py-3">
+              <button
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 flex-1 bg-[#1980e6] text-white text-sm font-bold leading-normal tracking-[0.015em]"
+                type="submit"
+              >
+                <span class="truncate">Continue</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="h-5 bg-white"></div>
+    </div>
+{% endblock %}

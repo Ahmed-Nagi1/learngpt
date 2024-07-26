@@ -1,0 +1,42 @@
+{% include 'app/base.html' %}
+{% load static %} 
+{% load i18n %}
+{% block extra_head %}
+<title>Change Language</title>
+<link rel="stylesheet" href="{% static 'app/css/settings/language.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="wrapper">
+    <div class="title-text">
+      <div class="title">{% trans "Change Language" %}</div>
+    </div><br><hr><br>
+    <div class="form-container">
+      <div class="form-inner">
+        <form method="post" class="update-profile" action="{% url 'set_language' %}">{% csrf_token %}
+          <div class="field">
+            <select class="form-control" id="language" name="language">
+              {% get_current_language as LANGUAGE_CODE %}
+              {% get_available_languages as LANGUAGES %}
+              {% for lang_code, lang_name in LANGUAGES %}
+                <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
+                  {{ lang_name }}
+                </option>
+              {% endfor %}
+            </select>
+            <br>      
+
+          </div>
+          <div class="field btn">
+            <div class="btn-layer"></div>
+            {% comment %} <button type="submit">Save</button> {% endcomment %}
+            <input type="submit" value="Save">
+          </div>
+          {% for error in form.non_field_errors %}
+          <div class="error">{{ error }}</div>
+          {% endfor %}
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
