@@ -26,10 +26,10 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['learngpt.tech', 'www.learngpt.tech']
-CSRF_TRUSTED_ORIGINS = ['https://learngpt.tech']
+CSRF_TRUSTED_ORIGINS = ['https://learngpt.tech', 'https://www.learngpt.tech']
 
 # Application definition
 
@@ -111,6 +111,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+SESSION_COOKIE_DOMAIN = ".learngpt.tech"
+CSRF_COOKIE_DOMAIN = ".learngpt.tech"
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+
 # SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # SESSION_COOKIE_NAME = 'sessionid'
 # SESSION_COOKIE_AGE = 1209600  # أسبوعين
@@ -140,16 +145,18 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-STORAGES = {
-    "staticfiles": {
-        "BACKEND": 'whitenoise.storage.CompressedManifestStaticFilesStorage',
-    },
-}
+# STORAGES = {
+#     "staticfiles": {
+#         "BACKEND": 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+#     },
+# }
 
-WHITENOISE_GZIP_COMPRESSION = False
-WHITENOISE_USE_FINDERS = True
-WHITENOISE_COMPRESS = True
-WHITENOISE_BROTLI = True
+# WHITENOISE_GZIP_COMPRESSION = False
+# WHITENOISE_USE_FINDERS = True
+# WHITENOISE_COMPRESS = True
+# WHITENOISE_BROTLI = True
+
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
@@ -158,7 +165,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-GOOGLE_RECAPTCHA_SECRET_KEY = env("EMAIL_HOST")
+GOOGLE_RECAPTCHA_SECRET_KEY = env("GOOGLE_RECAPTCHA_SECRET_KEY")
 
 # Email settings (adjust as needed)
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"

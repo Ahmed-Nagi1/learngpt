@@ -11,5 +11,5 @@ class Profile(models.Model):
     age = models.IntegerField(null=True, blank=True)
     stage = models.CharField(max_length=10, null=True, blank=True)
     is_sub = models.BooleanField(default=False)
-    count = models.IntegerField(default=3)
+    count = models.IntegerField(default=5)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)

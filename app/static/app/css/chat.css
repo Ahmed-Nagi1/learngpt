@@ -97,7 +97,8 @@ body {
     padding: 10px;
     transform: translateX(-16px);
     max-width: 100%;
-    /* text-align: right */
+    white-space: pre-wrap;
+
 
 }
 
@@ -205,4 +206,5 @@ pre code {
     transform: translateX(-16px);
     max-width: 100%;
     background: #f1f1f1;
+    white-space: pre-wrap;
 }

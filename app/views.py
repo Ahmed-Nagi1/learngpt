@@ -21,6 +21,8 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 import base64
 from django.db.models import F
+from django.http import JsonResponse
+
 
 
 client = OpenAI(api_key='sk-proj-hT9LIIr6aHF5c7iwCT7LT3BlbkFJH0L1R9TT35yyZ5eKOJiR')
@@ -28,10 +30,12 @@ client = OpenAI(api_key='sk-proj-hT9LIIr6aHF5c7iwCT7LT3BlbkFJH0L1R9TT35yyZ5eKOJi
 @login_required
 @csrf_exempt
 
+
 def chat(request):
     user = get_object_or_404(Profile, user=request.user.id)
-    if user.count > 0:
-        if request.method == 'POST':
+
+    if request.method == 'POST':
+        if user.count > 0:
             if request.POST.get('new_chat') == 'true':
                 request.session['chat_history'] = [
                     {"role": "system", "content": "أنت أستاذ لكل المواد الدراسية، ومهمتك هي تعليم الطلاب السودانيين وفقًا للمناهج السودانية."},
@@ -73,23 +77,24 @@ def chat(request):
             )
 
             response = completion.choices[0].message.content
+            print(response)
             chat_history.append({"role": "assistant", "content": response})
             user.count = F('count') - 1
             user.save()
             request.session['chat_history'] = chat_history
 
             return JsonResponse({'response': response})
-    
-            
-
+        
         else:
-            form = ChatForm()
-            chat_history = request.session.get('chat_history', [])
-            return render(request, 'app/chat.html', {'form': form, 'chat_history': chat_history})
-            
+            return JsonResponse({'redirect': True, 'url': reverse('support') + '?count=0'})
+                
     else:
-        url = reverse('support') + '?count=0'
-        return redirect(url)
+        form = ChatForm()
+        chat_history = request.session.get('chat_history', [])
+        return render(request, 'app/chat.html', {'form': form, 'chat_history': chat_history})
+        
+
+        
 #todo.############################ seetings ############################
 @login_required
 @cache_page(60 * 15)

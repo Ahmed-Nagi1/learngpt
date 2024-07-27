@@ -15,6 +15,12 @@ from django.utils.crypto import get_random_string
 from .models import Profile
 
 
+
+def _404_view(request, exception):
+    return redirect('login')
+
+
+
 @cache_page(60 * 15)
 def redirect_login(request):
     return redirect('login')
@@ -40,8 +46,7 @@ class SignUp(CreateView):
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        # if recaptcha(self.request):
-        if 1:
+        if recaptcha(self.request):
             email = form.cleaned_data.get('email').lower()
             try:
                 user = User.objects.get(email=email)
@@ -112,7 +117,7 @@ class ConfirmEmailView(View):
                     login(request, user)
                     del request.session['user_id']
                     del request.session['email_confirmation_code']
-                    return redirect('chat')
+                    return redirect('choose')
                 else:
                     error_message = 'Invalid confirmation code'
             except User.DoesNotExist:
@@ -134,8 +139,7 @@ def login_form(request):
                 email_or_username = request.POST.get('email_or_username')
                 password = request.POST.get('password')
                 user = authenticate_eu(str(email_or_username), str(password))
-                # if recaptcha(request):                      
-                if True:
+                if recaptcha(request):                      
                     if user is not None:
                         login(request, user)
 
