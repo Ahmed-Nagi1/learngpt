@@ -26,10 +26,10 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = []
+ALLOWED_HOSTS = ['learngpt.tech', 'www.learngpt.tech']
+CSRF_TRUSTED_ORIGINS = ['https://learngpt.tech']
 
 # Application definition
 
@@ -139,17 +139,17 @@ STATIC_URL = "/static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-# STORAGES = {
-#     "staticfiles": {
-#         "BACKEND": 'whitenoise.storage.CompressedStaticFilesStorage',
-#     },
-# }
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+}
 
-# WHITENOISE_GZIP_COMPRESSION = False
-# WHITENOISE_USE_FINDERS = True
-# WHITENOISE_COMPRESS = True
-# WHITENOISE_BROTLI = True
+WHITENOISE_GZIP_COMPRESSION = False
+WHITENOISE_USE_FINDERS = True
+WHITENOISE_COMPRESS = True
+WHITENOISE_BROTLI = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
@@ -172,3 +172,26 @@ EMAIL_USE_HTML = True
 
 
 API_KEY_OPENAI = env('API_KEY_OPENAI')
+
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+            "propagate": False,
+        },
+    },
+}
