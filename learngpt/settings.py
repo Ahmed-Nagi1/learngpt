@@ -28,8 +28,8 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['learngpt.tech', 'www.learngpt.tech']
-CSRF_TRUSTED_ORIGINS = ['https://learngpt.tech', 'https://www.learngpt.tech']
+ALLOWED_HOSTS = ['']
+
 
 # Application definition
 
@@ -112,9 +112,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-SESSION_COOKIE_DOMAIN = ".learngpt.tech"
-CSRF_COOKIE_DOMAIN = ".learngpt.tech"
-SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
 # SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # SESSION_COOKIE_NAME = 'sessionid'

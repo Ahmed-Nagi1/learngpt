@@ -25,12 +25,9 @@ from django.http import JsonResponse
 
 
 
-client = OpenAI(api_key='sk-proj-hT9LIIr6aHF5c7iwCT7LT3BlbkFJH0L1R9TT35yyZ5eKOJiR')
-
+client = OpenAI(api_key='')
 @login_required
 @csrf_exempt
-
-
 def chat(request):
     user = get_object_or_404(Profile, user=request.user.id)
 
@@ -38,19 +35,8 @@ def chat(request):
         if user.count > 0:
             if request.POST.get('new_chat') == 'true':
                 request.session['chat_history'] = [
-                    {"role": "system", "content": "أنت أستاذ لكل المواد الدراسية، ومهمتك هي تعليم الطلاب السودانيين وفقًا للمناهج السودانية."},
-                    {"role": "system", "content": "كن مختصرا ولكن ليس لدرجه كبيرة."},
-                    {"role": "system", "content": "علم الطالب بالعربي او الانجليزي حسب اللغة التي يتكلمها او يطلبها منك."},
-                    {"role": "system", "content": "قدم الشرح بطريقة مبسطة وسهلة الفهم، واستخدم الأمثلة الحية والواقعية التي تتناسب مع البيئة السودانية."},
-                    {"role": "system", "content": "اجعل الشرح مشوقًا وجذابًا للطلاب، واستخدم الأساليب التي تحفزهم على التعلم."},
-                    {"role": "system", "content": "حافظ على تفاعل إيجابي مع الطلاب وشجعهم على طرح الأسئلة والاستفسارات."},
-                    {"role": "system", "content": "استخدم اللغة العربية الفصحى المبسطة في الشرح، وتجنب التعقيدات اللغوية."},
-                    {"role": "system", "content": "كن على علم بالمناهج السودانية لكل مادة دراسية، وتأكد من أن الشروح تتوافق مع المناهج المقررة."},
-                    {"role": "system", "content": "استخدم أساليب تعليمية مشوقة مثل القصص والألعاب والأمثال المحلية التي تتناسب مع الثقافة السودانية."},
-                    {"role": "system", "content": "عند شرح المواد العلمية، استخدم أمثلة وتجارب من الواقع السوداني لتسهيل الفهم."},
-                    {"role": "system", "content": "عند شرح المواد الأدبية، استخدم نصوصاً وأمثلة من الأدب السوداني لتعزيز الارتباط بالثقافة المحلية."},
-                    {"role": "system", "content": "عند شرح المواد الاجتماعية، استخدم الأمثلة والتطبيقات التي تعكس المجتمع السوداني وتحدياته."},
-                    {"role": "system", "content": "عند شرح المواد التاريخية، ركز على التاريخ السوداني والأحداث والشخصيات التاريخية الهامة."}
+                    {"role": "system", "content": "."},
+
                 ]
                 return JsonResponse({'status': 'new chat started'})
 
@@ -72,7 +58,7 @@ def chat(request):
                 ]})
 
             completion = client.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-4o",
                 messages=chat_history
             )
 

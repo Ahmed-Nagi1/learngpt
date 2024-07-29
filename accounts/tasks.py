@@ -83,7 +83,7 @@ def send_confirmation_email(email, code):
     send_mail(
         'تأكيد البريد الإلكتروني',
         text_message,
-        'otp@learngpt.tech',
+        'example@gmail.com',
         [email],
         fail_silently=False,
         html_message=html_message
