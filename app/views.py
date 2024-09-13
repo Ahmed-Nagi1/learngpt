@@ -25,7 +25,8 @@ from django.http import JsonResponse
 
 
 
-client = OpenAI(api_key='')
+client = OpenAI(api_key=settings.API_KEY_OPENAI)
+
 @login_required
 @csrf_exempt
 def chat(request):

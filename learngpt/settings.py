@@ -26,9 +26,9 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -113,11 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
-# SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-# SESSION_COOKIE_NAME = 'sessionid'
-# SESSION_COOKIE_AGE = 1209600  # أسبوعين
-# SESSION_SAVE_EVERY_REQUEST = True
-# SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -141,17 +137,17 @@ STATIC_URL = "/static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-# STORAGES = {
-#     "staticfiles": {
-#         "BACKEND": 'whitenoise.storage.CompressedManifestStaticFilesStorage',
-#     },
-# }
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+}
 
-# WHITENOISE_GZIP_COMPRESSION = False
-# WHITENOISE_USE_FINDERS = True
-# WHITENOISE_COMPRESS = True
-# WHITENOISE_BROTLI = True
+WHITENOISE_GZIP_COMPRESSION = False
+WHITENOISE_USE_FINDERS = True
+WHITENOISE_COMPRESS = True
+WHITENOISE_BROTLI = True
 
 
 MEDIA_URL = '/media/'

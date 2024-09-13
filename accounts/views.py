@@ -139,7 +139,7 @@ def login_form(request):
                 email_or_username = request.POST.get('email_or_username')
                 password = request.POST.get('password')
                 user = authenticate_eu(str(email_or_username), str(password))
-                if recaptcha(request):                      
+                if recaptcha(request):      
                     if user is not None:
                         login(request, user)
 

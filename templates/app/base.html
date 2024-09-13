@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% load cache %}
 {% load static %}
 {% block extra_head %}
   <link rel="stylesheet" href="{% static 'app/css/base.css' %}" />
@@ -9,13 +8,12 @@
 {% endblock %}
 
 {% block content %}
-  {% cache 500 sidebar %}
   <!-- partial:index.partial.html -->
   <button id="nav-toggle-btn"><i class="fa-solid fa-bars"></i></button>
   <div style="left: -100%;" id="nav-bar">
     <input id="nav-toggle" type="checkbox" />
     <div id="nav-header">
-      <a id="nav-title" target="_blank">Bus<i class="fa-solid fa-bus"></i>ln</a>
+      <a id="nav-title" target="_blank">Learn<i class="fa-solid fa-bus"></i>GPT</a>
       <label for="nav-toggle"><span id="nav-toggle-burger"></span></label>
       <hr />
     </div>
@@ -49,7 +47,6 @@
         <div id="nav-footer-avatar">
        
         </div>
-    {% endcache %}
         <div id="nav-footer-titlebox">
           {{ request.user.username }}<span id="nav-footer-subtitle">
             {% if request.user.parent.is_pro %}

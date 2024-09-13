@@ -2,23 +2,23 @@ version: '3.8'
 
 services:
 
-  redis_learn_gpt:
+  redis:
     image: redis:latest
     volumes:
       - redis_volume_learn_gpt:/data
 
-  django_learn_gpt:
+  django:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "9000:9000"
+      - "8000:8000"
     env_file:
       - .env
     volumes:
       - .:/learn
     depends_on:
-      - redis_learn_gpt
+      - redis
 
 volumes:
   redis_volume_learn_gpt:
