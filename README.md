@@ -28,8 +28,7 @@ Start by cloning the repository to your local machine:
 
 ```bash
 git clone https://github.com/Ahmed-Nagi1/learngpt.git
-cd learngpt
-pip install -r requirements.txt 
+cd learngpt 
 ```
 ### 2. Add Api
 Look at env file
