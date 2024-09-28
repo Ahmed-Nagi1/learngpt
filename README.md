@@ -1,6 +1,5 @@
 # LearnGpt - ChatGPT Django with Docker
 
-<img src="./staticfiles/image/image.png" alt="LearnGpt Screenshot" width="600" height="300"/>
 
 ## Project Overview
 
